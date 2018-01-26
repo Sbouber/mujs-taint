@@ -2,3 +2,4 @@ language: c
 script:
   - cd mujs
   - make
+  - python run_tests.py
