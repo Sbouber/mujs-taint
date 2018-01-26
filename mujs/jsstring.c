@@ -211,7 +211,7 @@ static void Sp_slice(js_State *J)
 static void Sp_substring(js_State *J)
 {
 	const char *str = checkstring(J, 0);
-	int tainted = js_tovalue(J, 0)->u.memstr->tainted;
+	int tainted = js_get_taint(J, 0);
 	const char *ss, *ee;
 	int len = utflen(str);
 	int s = js_tointeger(J, 1);
@@ -236,7 +236,7 @@ static void Sp_substring(js_State *J)
 static void Sp_toLowerCase(js_State *J)
 {
 	const char *src = checkstring(J, 0);
-	int tainted = js_tovalue(J, 0)->u.memstr->tainted;
+	int tainted = js_get_taint(J, 0);
 	char *dst = js_malloc(J, UTFmax * strlen(src) + 1);
 	const char *s = src;
 	char *d = dst;
@@ -261,7 +261,7 @@ static void Sp_toLowerCase(js_State *J)
 static void Sp_toUpperCase(js_State *J)
 {
 	const char *src = checkstring(J, 0);
-	int tainted = js_tovalue(J, 0)->u.memstr->tainted;
+	int tainted = js_get_taint(J, 0);
 	char *dst = js_malloc(J, UTFmax * strlen(src) + 1);
 	const char *s = src;
 	char *d = dst;
@@ -292,7 +292,7 @@ static int istrim(int c)
 static void Sp_trim(js_State *J)
 {
 	const char *s, *e;
-	int tainted = js_tovalue(J, 0)->u.memstr->tainted;
+	int tainted = js_get_taint(J, 0);
 	s = checkstring(J, 0);
 	while (istrim(*s))
 		++s;
@@ -630,7 +630,7 @@ static void Sp_split_string(js_State *J)
 	const char *str = checkstring(J, 0);
 	const char *sep = js_tostring(J, 1);
 	int limit = js_isdefined(J, 2) ? js_tointeger(J, 2) : 1 << 30;
-	int tainted = js_tovalue(J, 0)->u.memstr->tainted;
+	int tainted = js_get_taint(J, 0);
 	int i, n;
 
 	js_newarray(J);
