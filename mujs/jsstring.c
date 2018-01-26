@@ -81,7 +81,10 @@ static void Sp_valueOf(js_State *J)
 {
 	js_Object *self = js_toobject(J, 0);
 	if (self->type != JS_CSTRING) js_typeerror(J, "not a string");
-	js_pushliteral(J, self->u.s.string);
+	int tainted = js_get_taint(J, 0);
+	js_pushstring(J, self->u.s.string);
+	if (tainted)
+			js_taint_stack(J, -1);
 }
 
 static void Sp_charAt(js_State *J)
