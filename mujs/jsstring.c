@@ -203,6 +203,7 @@ static void Sp_slice(js_State *J)
 	int len = utflen(str);
 	int s = js_tointeger(J, 1);
 	int e = js_isdefined(J, 2) ? js_tointeger(J, 2) : len;
+	int tainted = js_get_taint(J, 0);
 
 	s = s < 0 ? s + len : s;
 	e = e < 0 ? e + len : e;
@@ -219,6 +220,8 @@ static void Sp_slice(js_State *J)
 	}
 
 	js_pushlstring(J, ss, ee - ss);
+	if (tainted)
+		js_taint_stack(J, -1);
 }
 
 static void Sp_substring(js_State *J)
