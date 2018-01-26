@@ -1,4 +1,4 @@
-# mujs-taint
+# mujs-taint (WIP)
 Taint tracking for mujs
 
 This modification of mujs adds basic taint tracking to variables (just strings for now). Taint is currently not applied on a byte level.
