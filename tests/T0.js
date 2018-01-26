@@ -6,3 +6,5 @@ var y = x + 1;
 assert(y.isTainted());
 var z = x + "str2";
 assert(z.isTainted());
+
+success();

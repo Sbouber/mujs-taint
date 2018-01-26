@@ -1,3 +1,5 @@
+[![Build Status][build-status-img]][travis-ci]
+
 # mujs-taint (WIP)
 Taint tracking for MuJS
 
