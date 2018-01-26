@@ -17,23 +17,23 @@ Object.prototype.isTainted()
 
 ## Taint propagation rules:
 
-`` T + x ---> T``
+**T0** `` T + x ---> T``
 
-`` x + T --> T ``
+**T1** `` x + T --> T ``
 
-`` T.toString() --> T ``
+**T2** `` T.toString() --> T ``
 
-`` T.concat(x) --> T ``
+**T3** `` T.concat(x) --> T ``
 
-`` x.concat(T) --> T ``
+**T4** `` x.concat(T) --> T ``
 
-`` T.split(x) --> [T] ``
+**T5** `` T.split(x) --> [T] ``
 
-`` T.toLowerCase() --> T ``
+**T6** `` T.toLowerCase() --> T ``
 
-`` T.toUpperCase() --> T ``
+**T7** `` T.toUpperCase() --> T ``
 
-`` T.trim() --> T ``
+**T8** `` T.trim() --> T ``
 
 ## Use cases
 
