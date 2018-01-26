@@ -24,7 +24,9 @@ Subsequently, callbacks can be added which will fire when a new value has been t
 
 ``
 on_taint_apply
+
 on_taint_eq
+
 on_taint_cmp
 ``
 
