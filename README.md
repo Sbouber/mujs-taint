@@ -3,19 +3,19 @@ Taint tracking for mujs
 
 This modification of mujs adds basic taint tracking to variables (just strings for now). Taint is currently not applied on a byte level.
 
-The following function can be used to apply taint to a variable:
+##The following function can be used to apply taint to a variable:
 
 ``
 Object.prototype.taint()
 ``
 
-The following function can be used to check if a variable is tainted:
+##The following function can be used to check if a variable is tainted:
 
 ``
 Object.prototype.isTainted()
 ``
 
-Taint propagation rules:
+##Taint propagation rules:
 
 `` T + x ---> T``
 
