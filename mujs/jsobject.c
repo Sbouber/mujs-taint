@@ -489,7 +489,7 @@ static void O_isTainted(js_State *J)
 {
 	js_Value *val = js_tovalue(J, 0);
 
-	if (js_isobject(J, 0) && js_toobject(J, 0)->tainted == 1 ||
+	if ( (js_isobject(J, 0) && js_toobject(J, 0)->tainted == 1) ||
 		(val->type == JS_TMEMSTR && val->u.memstr->tainted == 1)) {
 		js_pushboolean(J, 1);
 	} else {
