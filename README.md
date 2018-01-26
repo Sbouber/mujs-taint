@@ -47,3 +47,7 @@ var y = x.trim();
 
 $(z).html(y);
 ```
+
+## Limitations
+
+MuJS implements ES5, so not all javascript code can be passed into MuJS. There are some ES6->ES5 compilers available to overcome this limitation.
