@@ -1,14 +1,5 @@
 #!/usr/bin/env python
 
-
-
-# TODO python bindings for mujs
-# interp = MuJS()
-# interp.run("var a = 1;")
-# interp.addfunc()
-# interp.ontaint(cb)
-
-
 import ctypes
 import jsbeautifier
 
@@ -64,7 +55,9 @@ if __name__ == "__main__":
 	def taint_cb(line_no, jsval):
 		pass
 
-	interp.ontaint(taint_cb)
+	interp.on_taint_apply(taint_apply_cb)
+	interp.on_taint_eq(taint_eq_cb)
+	interp.on_taint_cmp(taint_cmp_cb)
 
 	interp.runf("lib/assert.js")
 	interp.runf("lib/browser.js")
