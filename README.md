@@ -34,3 +34,14 @@ Object.prototype.isTainted()
 `` T.toUpperCase() --> T ``
 
 `` T.trim() --> T ``
+
+## Use cases
+
+### Dom based XSS
+This taint tracker could be used to detect DOM-based XSS, such as
+
+``
+var x = tainted_user_input.split(a)[1];
+var y = x.trim();
+$(z).html(y);
+``
