@@ -42,6 +42,8 @@ This taint tracker could be used to detect DOM-based XSS, such as
 
 ``
 var x = tainted_user_input.split(a)[1];
+
 var y = x.trim();
+
 $(z).html(y);
 ``
