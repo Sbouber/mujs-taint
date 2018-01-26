@@ -19,21 +19,37 @@ Object.prototype.isTainted()
 
 **T0** `` T + x ---> T``
 
-**T1** `` x + T --> T ``
+**T1** `` x + T ---> T ``
 
-**T2** `` T.toString() --> T ``
+**T2** `` T = x ---> x ``
 
-**T3** `` T.concat(x) --> T ``
+**T3** `` x = T ---> T ``
 
-**T4** `` x.concat(T) --> T ``
+**T4** `` new String(T) ---> T ``
 
-**T5** `` T.split(x) --> [T] ``
+**T5** `` T.toString() ---> T ``
 
-**T6** `` T.toLowerCase() --> T ``
+**T6** `` T.concat(x) ---> T ``
 
-**T7** `` T.toUpperCase() --> T ``
+**T7** `` x.concat(T) ---> T ``
 
-**T8** `` T.trim() --> T ``
+**T8** `` T.split(x) ---> [T] ``
+
+**T9** `` T.toLowerCase() ---> T ``
+
+**T10** `` T.toUpperCase() ---> T ``
+
+**T11** `` T.trim() ---> T ``
+
+**T12** `` T.valueOf() ---> T ``
+
+**T13** `` T.charAt(x) ---> T ``
+
+**T14** `` T.toLocaleLowerCase() ---> T ``
+
+**T15** `` T.toLocaleUpperCase() ---> T ``
+
+**T16** `` T.slice(x,y) ---> T ``
 
 ## Use cases
 
