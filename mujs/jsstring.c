@@ -57,7 +57,10 @@ int js_utfptrtoidx(const char *s, const char *p)
 
 static void jsB_new_String(js_State *J)
 {
+	int tainted = js_get_taint(J, 1);
 	js_newstring(J, js_gettop(J) > 1 ? js_tostring(J, 1) : "");
+	if (tainted)
+		js_taint_stack(J, -1);
 }
 
 static void jsB_String(js_State *J)
