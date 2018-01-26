@@ -1,7 +1,7 @@
 # mujs-taint (WIP)
 Taint tracking for MuJS
 
-This modification of mujs adds basic taint tracking to variables (just strings for now). Taint is currently not applied on a byte level.
+This modification of MuJS adds basic taint tracking to variables (just strings for now). Taint is currently not applied on a byte level.
 
 ## The following function can be used to apply taint to a variable:
 
