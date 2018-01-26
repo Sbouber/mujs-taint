@@ -90,11 +90,16 @@ static void Sp_charAt(js_State *J)
 	const char *s = checkstring(J, 0);
 	int pos = js_tointeger(J, 1);
 	Rune rune = js_runeat(J, s, pos);
+	int tainted = js_get_taint(J, 0);
 	if (rune > 0) {
 		buf[runetochar(buf, &rune)] = 0;
 		js_pushstring(J, buf);
+		if (tainted)
+			js_taint_stack(J, -1);
 	} else {
-		js_pushliteral(J, "");
+		js_pushstring(J, "");
+		if (tainted)
+			js_taint_stack(J, -1);
 	}
 }
 
