@@ -10,6 +10,7 @@
 
 
 import ctypes
+import jsbeautifier
 
 
 class MuJS(object):
@@ -22,7 +23,7 @@ class MuJS(object):
 		self.lib.js_dostring.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
 		self.lib.js_dofile.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
 		self.lib.js_newcfunction.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_char_p, ctypes.c_int]
-		self.lib.js_setglobal.argtypes = [ctypes.c_char_p]
+		self.lib.js_setglobal.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
 
 	def run(self, s):
 		self.lib.js_dostring(self.state_ptr, s.encode("utf-8"))
@@ -32,15 +33,20 @@ class MuJS(object):
 
 	def addfunc(self, cb, name, argcount):
 
-		# Todo:
-		# - register cb_wrapper as a cfunction with name as name
-		# - use setglobal
-		# - cb_wrapper should grab argcount args from the stack, convert to python types
-		# - then call the given cb with args
-		# - grab the return value and convert it to a JsValue
-
+		@ctypes.CFUNCTYPE(None)
 		def cb_wrapper():
-			pass
+			print("cb_wrapper called")
+
+			# TODO:
+
+			# grab argcount args
+
+			# convert to python values
+
+			# call cb with args
+
+		self.lib.js_newcfunction(self.state_ptr, cb_wrapper, name.encode("utf-8"), argcount)
+		self.lib.js_setglobal(self.state_ptr, name.encode("utf-8"))
 
 
 
@@ -52,6 +58,14 @@ def js_func(x,y):
 
 if __name__ == "__main__":
 	interp = MuJS()
-	interp.run("var x = 10; var y = 20;")
-	interp.addfunc(js_func, "js_func", 2)
-	interp.run("js_func(x, y);")
+	jsfile = open("examples/domxss1.js", "r").read()
+	jsfile = jsbeautifier.beautify(jsfile)
+
+	def taint_cb(line_no, jsval):
+		pass
+
+	interp.ontaint(taint_cb)
+
+	interp.runf("lib/assert.js")
+	interp.runf("lib/browser.js")
+	interp.run(jsfile)

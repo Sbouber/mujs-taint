@@ -17,6 +17,17 @@ Object.prototype.taint()
 Object.prototype.isTainted()
 ``
 
+## Taint tracking in Python
+The MuJS class can be used to construct a new Javascript environment and run a script.
+
+Subsequently, callbacks can be added which will fire when a new value has been tainted or a tainted value is used in a comparison:
+
+``
+on_taint_apply
+on_taint_eq
+on_taint_cmp
+``
+
 ## Taint propagation rules:
 
 **T0** `` T + x ---> T``
