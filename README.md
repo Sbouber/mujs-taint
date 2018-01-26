@@ -32,3 +32,5 @@ Object.prototype.isTainted()
 `` T.toLowerCase() --> T ``
 
 `` T.toUpperCase() --> T ``
+
+`` T.trim() --> T ``
