@@ -1,13 +1,10 @@
 import os
 
 binary = "./mujs/build/release/mujs"
-lib = ""
 
 fail = False
 
-for f in os.listdir("lib"):
-	lib += open("lib/" + f, "r").read()
-
+lib = open("lib/assert.js", "r").read()
 
 for f in os.listdir('tests'):
 	print("============================ Running %s ============================" % f)

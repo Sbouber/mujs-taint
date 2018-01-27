@@ -523,6 +523,22 @@ static void O_taint(js_State *J)
 	js_copy(J, 1);
 }
 
+static void O_defineGetter(js_State *J)
+{
+
+	if (!js_iscallable(J, 2)) {
+		js_typeerror(J, "not a function");
+	}
+
+	js_Object *obj = js_toobject(J, 0);
+	char *name = js_tostring(J, 1);
+	js_Object *getter = js_toobject(J, 2);
+
+	js_Property *prop = jsV_setproperty(J, obj, name);
+	prop->getter = getter;
+
+}
+
 
 
 void jsB_initobject(js_State *J)
@@ -535,9 +551,11 @@ void jsB_initobject(js_State *J)
 		jsB_propf(J, "Object.prototype.hasOwnProperty", Op_hasOwnProperty, 1);
 		jsB_propf(J, "Object.prototype.isPrototypeOf", Op_isPrototypeOf, 1);
 		jsB_propf(J, "Object.prototype.propertyIsEnumerable", Op_propertyIsEnumerable, 1);
-		jsB_propf(J, "Object.prototype.isTainted", O_isTainted, 1);
-		jsB_propf(J, "Object.prototype.taint", O_taint, 2);
-		jsB_propf(J, "Object.prototype.getTaint", O_getTaint, 1);
+		jsB_propf(J, "Object.prototype.isTainted", O_isTainted, 0);
+		jsB_propf(J, "Object.prototype.taint", O_taint, 1);
+		jsB_propf(J, "Object.prototype.getTaint", O_getTaint, 0);
+		jsB_propf(J, "Object.prototype.__defineGetter__", O_defineGetter, 2);
+
 	}
 	js_newcconstructor(J, jsB_Object, jsB_new_Object, "Object", 1);
 	{
