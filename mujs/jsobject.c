@@ -499,15 +499,8 @@ static void O_isTainted(js_State *J)
 
 static void O_getTaint(js_State *J)
 {
-	js_Value *val = js_tovalue(J, 0);
-
-	if (js_isobject(J, 0)) {
-		js_pushnumber(J, js_toobject(J, 0)->tainted);
-	} else if(val->type == JS_TMEMSTR) {
-		js_pushnumber(J, val->u.memstr->tainted);
-	} else {
-		js_pushnumber(J, 0);
-	}
+	
+	js_pushnumber(J, js_get_taint(J, 0));
 }
 
 static void O_taint(js_State *J)
@@ -544,7 +537,7 @@ void jsB_initobject(js_State *J)
 		jsB_propf(J, "Object.prototype.propertyIsEnumerable", Op_propertyIsEnumerable, 1);
 		jsB_propf(J, "Object.prototype.isTainted", O_isTainted, 1);
 		jsB_propf(J, "Object.prototype.taint", O_taint, 2);
-		jsB_propf(J, "Object.prototype.getTaint", O_getTaint, 2);
+		jsB_propf(J, "Object.prototype.getTaint", O_getTaint, 1);
 	}
 	js_newcconstructor(J, jsB_Object, jsB_new_Object, "Object", 1);
 	{
