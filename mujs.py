@@ -5,12 +5,8 @@ import jsbeautifier
 
 
 # TODO
-# implement the following legacy functions:
-#
-# 1) Object.prototype.__defineGetter__()
-# 2) Object.prototype.__defineSetter__()
-# 3) Object.prototype.__lookupGetter__()
-# 4) Object.prototype.__lookupSetter__()
+# The `this` in mujs doesn't have an object prototype for some reason...
+# this is required for env.js
 #
 
 

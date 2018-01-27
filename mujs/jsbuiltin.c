@@ -242,4 +242,7 @@ void jsB_init(js_State *J)
 	jsB_globalf(J, "decodeURIComponent", jsB_decodeURIComponent, 1);
 	jsB_globalf(J, "encodeURI", jsB_encodeURI, 1);
 	jsB_globalf(J, "encodeURIComponent", jsB_encodeURIComponent, 1);
+
+	/* Set global object prototype */
+	J->G->prototype = J->Object_prototype;
 }
