@@ -537,6 +537,8 @@ static void O_defineGetter(js_State *J)
 	js_Property *prop = jsV_setproperty(J, obj, name);
 	prop->getter = getter;
 
+	js_pushundefined(J);	
+
 }
 
 static void O_defineSetter(js_State *J)
@@ -552,6 +554,39 @@ static void O_defineSetter(js_State *J)
 
 	js_Property *prop = jsV_setproperty(J, obj, name);
 	prop->setter = setter;
+
+	js_pushundefined(J);
+}
+
+static void O_lookupGetter(js_State *J)
+{
+
+	js_Object *obj = js_toobject(J, 0);
+	char *name = js_tostring(J, 1);
+
+	js_Property *prop = jsV_getproperty(J, obj, name);
+
+	if (prop != NULL && prop->getter != NULL) {
+		js_pushobject(J, prop->getter);
+	} else {
+		js_pushundefined(J);
+	}
+
+}
+
+static void O_lookupSetter(js_State *J)
+{
+
+	js_Object *obj = js_toobject(J, 0);
+	char *name = js_tostring(J, 1);
+
+	js_Property *prop = jsV_getproperty(J, obj, name);
+
+	if (prop != NULL && prop->setter != NULL) {
+		js_pushobject(J, prop->setter);
+	} else {
+		js_pushundefined(J);
+	}
 
 }
 
@@ -570,7 +605,8 @@ void jsB_initobject(js_State *J)
 		jsB_propf(J, "Object.prototype.getTaint", O_getTaint, 0);
 		jsB_propf(J, "Object.prototype.__defineGetter__", O_defineGetter, 2);
 		jsB_propf(J, "Object.prototype.__defineSetter__", O_defineSetter, 2);
-
+		jsB_propf(J, "Object.prototype.__lookupGetter__", O_lookupGetter, 1);
+		jsB_propf(J, "Object.prototype.__lookupSetter__", O_lookupSetter, 1);
 	}
 	js_newcconstructor(J, jsB_Object, jsB_new_Object, "Object", 1);
 	{
