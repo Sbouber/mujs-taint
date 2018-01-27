@@ -539,7 +539,21 @@ static void O_defineGetter(js_State *J)
 
 }
 
+static void O_defineSetter(js_State *J)
+{
 
+	if (!js_iscallable(J, 2)) {
+		js_typeerror(J, "not a function");
+	}
+
+	js_Object *obj = js_toobject(J, 0);
+	char *name = js_tostring(J, 1);
+	js_Object *setter = js_toobject(J, 2);
+
+	js_Property *prop = jsV_setproperty(J, obj, name);
+	prop->setter = setter;
+
+}
 
 void jsB_initobject(js_State *J)
 {
@@ -555,6 +569,7 @@ void jsB_initobject(js_State *J)
 		jsB_propf(J, "Object.prototype.taint", O_taint, 1);
 		jsB_propf(J, "Object.prototype.getTaint", O_getTaint, 0);
 		jsB_propf(J, "Object.prototype.__defineGetter__", O_defineGetter, 2);
+		jsB_propf(J, "Object.prototype.__defineSetter__", O_defineSetter, 2);
 
 	}
 	js_newcconstructor(J, jsB_Object, jsB_new_Object, "Object", 1);
