@@ -8,13 +8,19 @@ This modification of MuJS adds basic taint tracking to variables (just strings f
 ## The following function can be used to apply taint to a variable:
 
 ``
-Object.prototype.taint()
+Object.prototype.taint(id = 1)
 ``
 
 ## The following function can be used to check if a variable is tainted:
 
 ``
 Object.prototype.isTainted()
+``
+
+## The following function can be used to get the taint id:
+
+``
+Object.prototype.getTaint()
 ``
 
 ## Taint tracking in Python

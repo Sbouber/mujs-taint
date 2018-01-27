@@ -489,11 +489,24 @@ static void O_isTainted(js_State *J)
 {
 	js_Value *val = js_tovalue(J, 0);
 
-	if ( (js_isobject(J, 0) && js_toobject(J, 0)->tainted == 1) ||
-		(val->type == JS_TMEMSTR && val->u.memstr->tainted == 1)) {
+	if ( (js_isobject(J, 0) && js_toobject(J, 0)->tainted != 0) ||
+		(val->type == JS_TMEMSTR && val->u.memstr->tainted != 0)) {
 		js_pushboolean(J, 1);
 	} else {
 		js_pushboolean(J, 0);
+	}
+}
+
+static void O_getTaint(js_State *J)
+{
+	js_Value *val = js_tovalue(J, 0);
+
+	if (js_isobject(J, 0)) {
+		js_pushnumber(J, js_toobject(J, 0)->tainted);
+	} else if(val->type == JS_TMEMSTR) {
+		js_pushnumber(J, val->u.memstr->tainted);
+	} else {
+		js_pushnumber(J, 0);
 	}
 }
 
@@ -501,19 +514,16 @@ static void O_taint(js_State *J)
 {
 	js_Object *obj;
 	js_Value *val = js_tovalue(J, 0);
+	int t = js_isnumber(J, 1) ? (int)js_tonumber(J, 1) : 1;
 
 	if (js_isobject(J, 0)) {
 
 		obj = js_toobject(J, 0);
-		obj->tainted = 1;
-
-		printf("[Tainting object]\n");
+		obj->tainted = t;
 
 	} else if(val->type == JS_TMEMSTR) {
 
-		val->u.memstr->tainted = 1;
-
-		printf("[Tainting string]\n");
+		val->u.memstr->tainted = t;
 
 	}
 
@@ -533,7 +543,8 @@ void jsB_initobject(js_State *J)
 		jsB_propf(J, "Object.prototype.isPrototypeOf", Op_isPrototypeOf, 1);
 		jsB_propf(J, "Object.prototype.propertyIsEnumerable", Op_propertyIsEnumerable, 1);
 		jsB_propf(J, "Object.prototype.isTainted", O_isTainted, 1);
-		jsB_propf(J, "Object.prototype.taint", O_taint, 1);
+		jsB_propf(J, "Object.prototype.taint", O_taint, 2);
+		jsB_propf(J, "Object.prototype.getTaint", O_getTaint, 2);
 	}
 	js_newcconstructor(J, jsB_Object, jsB_new_Object, "Object", 1);
 	{
