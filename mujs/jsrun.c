@@ -164,13 +164,13 @@ static js_Value *stackidx(js_State *J, int idx)
 }
 
 
-void js_taint_stack(js_State *J, int n)
+void js_taint_stack(js_State *J, int n, int taint)
 {
 	if (stackidx(J, n)->type == JS_TOBJECT) {
-		stackidx(J, n)->u.object->tainted = 1;
+		stackidx(J, n)->u.object->tainted = taint;
 
 	} else if(stackidx(J, n)->type == JS_TMEMSTR) {
-		stackidx(J, n)->u.memstr->tainted = 1;
+		stackidx(J, n)->u.memstr->tainted = taint;
 	}
 }
 

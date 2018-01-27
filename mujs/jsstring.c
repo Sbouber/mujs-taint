@@ -60,7 +60,7 @@ static void jsB_new_String(js_State *J)
 	int tainted = js_get_taint(J, 1);
 	js_newstring(J, js_gettop(J) > 1 ? js_tostring(J, 1) : "");
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 }
 
 static void jsB_String(js_State *J)
@@ -77,7 +77,7 @@ static void Sp_toString(js_State *J)
 	js_pushstring(J, self->u.s.string);
 
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 }
 
 static void Sp_valueOf(js_State *J)
@@ -87,7 +87,7 @@ static void Sp_valueOf(js_State *J)
 	int tainted = js_get_taint(J, 0);
 	js_pushstring(J, self->u.s.string);
 	if (tainted)
-			js_taint_stack(J, -1);
+			js_taint_stack(J, -1, tainted);
 }
 
 static void Sp_charAt(js_State *J)
@@ -101,11 +101,11 @@ static void Sp_charAt(js_State *J)
 		buf[runetochar(buf, &rune)] = 0;
 		js_pushstring(J, buf);
 		if (tainted)
-			js_taint_stack(J, -1);
+			js_taint_stack(J, -1, tainted);
 	} else {
 		js_pushstring(J, "");
 		if (tainted)
-			js_taint_stack(J, -1);
+			js_taint_stack(J, -1, tainted);
 	}
 }
 
@@ -151,7 +151,7 @@ static void Sp_concat(js_State *J)
 
 	js_pushstring(J, out);
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 	js_endtry(J);
 	js_free(J, out);
 }
@@ -224,7 +224,7 @@ static void Sp_slice(js_State *J)
 
 	js_pushlstring(J, ss, ee - ss);
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 }
 
 static void Sp_substring(js_State *J)
@@ -249,7 +249,7 @@ static void Sp_substring(js_State *J)
 
 	js_pushlstring(J, ss, ee - ss);
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 }
 
 static void Sp_toLowerCase(js_State *J)
@@ -272,7 +272,7 @@ static void Sp_toLowerCase(js_State *J)
 	}
 	js_pushstring(J, dst);
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 	js_endtry(J);
 	js_free(J, dst);
 }
@@ -297,7 +297,7 @@ static void Sp_toUpperCase(js_State *J)
 	}
 	js_pushstring(J, dst);
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 	js_endtry(J);
 	js_free(J, dst);
 }
@@ -320,7 +320,7 @@ static void Sp_trim(js_State *J)
 		--e;
 	js_pushlstring(J, s, e - s);
 	if (tainted)
-		js_taint_stack(J, -1);
+		js_taint_stack(J, -1, tainted);
 }
 
 static void S_fromCharCode(js_State *J)
@@ -663,7 +663,7 @@ static void Sp_split_string(js_State *J)
 			n = chartorune(&rune, str);
 			js_pushlstring(J, str, n);
 			if (tainted)
-				js_taint_stack(J, -1);
+				js_taint_stack(J, -1, tainted);
 			js_setindex(J, -2, i);
 			str += n;
 		}
@@ -675,13 +675,13 @@ static void Sp_split_string(js_State *J)
 		if (s) {
 			js_pushlstring(J, str, s-str);
 			if (tainted)
-				js_taint_stack(J, -1);
+				js_taint_stack(J, -1, tainted);
 			js_setindex(J, -2, i);
 			str = s + n;
 		} else {
 			js_pushstring(J, str);
 			if (tainted)
-				js_taint_stack(J, -1);
+				js_taint_stack(J, -1, tainted);
 			js_setindex(J, -2, i);
 			str = NULL;
 		}

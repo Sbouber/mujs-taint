@@ -543,7 +543,7 @@ void js_concat(js_State *J)
 		js_pushstring(J, sab);
 
 		if (tainted)
-			js_taint_stack(J, -1);
+			js_taint_stack(J, -1, tainted);
 
 		js_endtry(J);
 		js_free(J, sab);
